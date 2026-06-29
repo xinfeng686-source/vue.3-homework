@@ -29,12 +29,12 @@
           <span class="stat-value">{{ store.todayFocusTime }}</span>
           <span class="stat-unit">min</span>
           <span class="stat-label">今日专注</span>
-        </div>
-        <div class="stat-card glass">
-          <span class="stat-value">{{ store.totalRecordsCount }}</span>
-          <span class="stat-unit">条</span>
-          <span class="stat-label">记录总数</span>
-        </div>
+          </div>
+          <div class="stat-card glass">
+          <span class="stat-value">{{ store.completedTasksCount }}</span>
+          <span class="stat-unit">项</span>
+          <span class="stat-label">已完成</span>
+          </div>
       </section>
 
       <!-- ====== 快捷导航 ====== -->

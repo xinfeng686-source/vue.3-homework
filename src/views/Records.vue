@@ -5,7 +5,8 @@
 
     <!-- 标题 -->
     <header class="page-header">
-      <h1 class="page-title">&#128211; 任务看板</h1>
+      <h1 class="page-title">&#128211; 任务看板 <span class="record-badge">共 {{ tasks.length }} 条记录</span>
+      </h1>
       <p class="page-subtitle">记录生活，管理待办</p>
     </header>
 
@@ -315,6 +316,19 @@ function handleDelete(task) {
   color: #2c3e50;
   margin-bottom: 4px;
 }
+
+.record-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
+  background: #f0f0f0;
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
 .page-subtitle {
   font-size: 14px;
   color: #999;

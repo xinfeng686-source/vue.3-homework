@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
   const loading = ref(false)
@@ -10,6 +10,11 @@ export const useAppStore = defineStore('app', () => {
   const pendingTasksCount = ref(0)   // 待办任务数
   const todayFocusTime = ref(0)      // 今日专注时长（分钟）
   const totalRecordsCount = ref(0)   // 记录总数
+
+  // ---- 衍生计算 ----
+  const completedTasksCount = computed(
+    () => totalRecordsCount.value - pendingTasksCount.value
+  )
 
   // ---- 任务看板上报 ----
   function updateTaskStats(pending, total) {
@@ -30,6 +35,7 @@ export const useAppStore = defineStore('app', () => {
     pendingTasksCount,
     todayFocusTime,
     totalRecordsCount,
+    completedTasksCount,
     // 动作
     updateTaskStats,
     addFocusTime,
