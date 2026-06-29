@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="dashboard">
     <div class="container">
 
@@ -9,26 +9,50 @@
       </header>
 
       <!-- ====== 每日格言 ====== -->
-      <section class="quote-card">
+      <section class="quote-card glass">
         <div v-if="loading" class="quote-loading">正在获取生活灵感…</div>
         <template v-else>
-          <blockquote class="quote-text">“{{ quote }}”</blockquote>
+          <blockquote class="quote-text">"{{ quote }}"</blockquote>
           <cite class="quote-author">—— {{ author }}</cite>
           <button class="refresh-btn" @click="fetchQuote" title="换一句">&orarr;</button>
         </template>
       </section>
 
+      <!-- ====== 数据概览 ====== -->
+      <section class="stats-row">
+        <div class="stat-card glass">
+          <span class="stat-value">3</span>
+          <span class="stat-unit">项</span>
+          <span class="stat-label">待办任务</span>
+        </div>
+        <div class="stat-card glass">
+          <span class="stat-value">45</span>
+          <span class="stat-unit">min</span>
+          <span class="stat-label">今日专注</span>
+        </div>
+        <div class="stat-card glass">
+          <span class="stat-value">12</span>
+          <span class="stat-unit">条</span>
+          <span class="stat-label">记录总数</span>
+        </div>
+      </section>
+
       <!-- ====== 快捷导航 ====== -->
       <nav class="nav-row">
-        <router-link to="/pomodoro" class="nav-card">
+        <router-link to="/pomodoro" class="nav-card glass">
           <span class="nav-icon">🍅</span>
           <span class="nav-label">专注空间</span>
           <span class="nav-desc">Focus</span>
         </router-link>
-        <router-link to="/tools" class="nav-card">
+        <router-link to="/tools" class="nav-card glass">
           <span class="nav-icon">🧩</span>
           <span class="nav-label">生活小部件</span>
           <span class="nav-desc">Widgets</span>
+        </router-link>
+        <router-link to="/records" class="nav-card glass">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">任务看板</span>
+          <span class="nav-desc">Records</span>
         </router-link>
       </nav>
 
@@ -75,7 +99,6 @@ function fetchQuote() {
       author.value = res.data.from || '匿名'
     })
     .catch(() => {
-      // 请求失败 → 使用本地保底名言
       error.value = true
       quote.value = FALLBACK_QUOTE
       author.value = FALLBACK_AUTHOR
@@ -106,6 +129,14 @@ onMounted(() => {
   max-width: 480px;
 }
 
+/* ---- 毛玻璃通用类 ---- */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
 /* ---- 问候区 ---- */
 .greeting {
   text-align: center;
@@ -129,11 +160,10 @@ onMounted(() => {
 /* ---- 格言卡片 ---- */
 .quote-card {
   position: relative;
-  background: #fff;
   border-radius: 20px;
   padding: 36px 28px 28px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   text-align: center;
   transition: box-shadow 0.25s;
 }
@@ -153,7 +183,6 @@ onMounted(() => {
   color: #3a2a1a;
   font-style: normal;
   margin-bottom: 14px;
-  quotes: none;
 }
 
 .quote-author {
@@ -180,11 +209,52 @@ onMounted(() => {
   transform: rotate(180deg);
 }
 
+/* ---- 数据概览 ---- */
+.stats-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 16px 8px 14px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s;
+}
+.stat-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1.1;
+}
+
+.stat-unit {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: -2px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
 /* ---- 快捷导航 ---- */
 .nav-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
 }
 
 .nav-card {
@@ -192,31 +262,34 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 28px 14px 22px;
-  background: #fff;
+  padding: 24px 10px 20px;
   border-radius: 18px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   text-decoration: none;
   color: #2c3e50;
   transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
 .nav-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
 }
+.nav-card:active {
+  transform: scale(0.96);
+}
 
 .nav-icon {
-  font-size: 34px;
+  font-size: 30px;
   line-height: 1;
 }
 
 .nav-label {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .nav-desc {
-  font-size: 12px;
+  font-size: 11px;
   color: #999;
 }
 </style>
