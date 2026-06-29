@@ -26,7 +26,7 @@
           <span class="stat-label">待办任务</span>
         </div>
         <div class="stat-card glass">
-          <span class="stat-value">{{ store.todayFocusTime }}</span>
+          <span class="stat-value">{{ store.todayFocusMinutes }}</span>
           <span class="stat-unit">min</span>
           <span class="stat-label">今日专注</span>
           </div>
