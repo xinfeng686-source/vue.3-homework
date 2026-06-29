@@ -9,7 +9,26 @@
 </template>
 
 <script setup>
+
+import { watch } from 'vue'
 import PomodoroTimer from '@/components/PomodoroTimer.vue'
+import { usePomodoroStore } from '@/stores/pomodoroStore'
+import { useAppStore } from '@/stores/app'
+
+const pomodoroStore = usePomodoroStore()
+const appStore = useAppStore()
+
+let lastFocusCompleted = false
+watch(() => pomodoroStore.isRunning, (running) => {
+  if (!running && pomodoroStore.timeLeft === 0 && pomodoroStore.mode === 'focus' && !lastFocusCompleted) {
+    lastFocusCompleted = true
+    appStore.addFocusTime(25)
+  }
+  if (running) {
+    lastFocusCompleted = false
+  }
+})
+
 </script>
 
 <style scoped>

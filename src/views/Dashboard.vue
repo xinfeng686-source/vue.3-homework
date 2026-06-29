@@ -21,17 +21,17 @@
       <!-- ====== 数据概览 ====== -->
       <section class="stats-row">
         <div class="stat-card glass">
-          <span class="stat-value">3</span>
+          <span class="stat-value">{{ store.pendingTasksCount }}</span>
           <span class="stat-unit">项</span>
           <span class="stat-label">待办任务</span>
         </div>
         <div class="stat-card glass">
-          <span class="stat-value">45</span>
+          <span class="stat-value">{{ store.todayFocusTime }}</span>
           <span class="stat-unit">min</span>
           <span class="stat-label">今日专注</span>
         </div>
         <div class="stat-card glass">
-          <span class="stat-value">12</span>
+          <span class="stat-value">{{ store.totalRecordsCount }}</span>
           <span class="stat-unit">条</span>
           <span class="stat-label">记录总数</span>
         </div>
@@ -62,7 +62,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useAppStore } from '@/stores/app'
 import axios from 'axios'
+
+const store = useAppStore()
 
 // ---- 动态问候 ----
 const days = ['日', '一', '二', '三', '四', '五', '六']
