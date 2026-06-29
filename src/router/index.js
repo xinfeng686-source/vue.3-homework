@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+﻿import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -15,9 +15,58 @@ const routes = [
   },
   {
     path: '/tools',
-    name: 'Tools',
     component: () => import('@/views/Tools.vue'),
-    meta: { title: '工具集' }
+    meta: { title: '工具箱' },
+    children: [
+      {
+        path: '',
+        name: 'ToolsHome',
+        component: () => import('@/views/ToolsHome.vue'),
+        meta: { title: '工具箱' }
+      },
+      {
+        path: 'calculator',
+        name: 'ToolsCalculator',
+        component: () => import('@/views/ToolsCalculator.vue'),
+        meta: { title: '计算器' }
+      },
+      {
+        path: 'countdown',
+        name: 'ToolsCountdown',
+        component: () => import('@/views/ToolsCountdown.vue'),
+        meta: { title: '倒计时' }
+      },
+      {
+        path: 'converter',
+        name: 'ToolsConverter',
+        component: () => import('@/views/ToolsUnitConverter.vue'),
+        meta: { title: '单位换算' }
+      },
+      {
+        path: 'json',
+        name: 'ToolsJson',
+        component: () => import('@/views/ToolsJsonFormatter.vue'),
+        meta: { title: 'JSON 格式化' }
+      },
+      {
+        path: 'world-clock',
+        name: 'ToolsWorldClock',
+        component: () => import('@/views/ToolsWorldClock.vue'),
+        meta: { title: '世界时钟' }
+      },
+      {
+        path: 'encoder',
+        name: 'ToolsEncoder',
+        component: () => import('@/views/ToolsEncoder.vue'),
+        meta: { title: '编解码' }
+      },
+      {
+        path: 'password',
+        name: 'ToolsPassword',
+        component: () => import('@/views/ToolsPasswordGenerator.vue'),
+        meta: { title: '密码生成' }
+      }
+    ]
   },
   {
     path: '/countdown',

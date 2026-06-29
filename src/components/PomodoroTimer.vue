@@ -1,18 +1,15 @@
-<template>
+﻿<template>
   <div class="pomodoro-timer">
-    <!-- 模式标识 -->
     <div class="mode-badge" :class="store.mode">
       {{ store.modeLabel }}
     </div>
 
-    <!-- 倒计时圆盘 -->
     <div class="timer-ring" :class="store.mode">
       <div class="timer-face">
         <span class="time-display">{{ store.formattedTime }}</span>
       </div>
     </div>
 
-    <!-- 操控按钮 -->
     <div class="controls">
       <button
         class="btn btn-start"
@@ -32,13 +29,46 @@
         重置
       </button>
     </div>
+
+    <div class="mode-switch">
+      <button
+        class="btn btn-mode"
+        :class="{ active: store.mode === 'focus' }"
+        @click="store.switchMode()"
+      >
+        专注
+      </button>
+      <button
+        class="btn btn-mode"
+        :class="{ active: store.mode === 'break' }"
+        @click="store.switchMode()"
+      >
+        休息
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { watch } from 'vue'
 import { usePomodoroStore } from '@/stores/pomodoroStore'
+import { useRecordsStore } from '@/stores/recordsStore'
 
 const store = usePomodoroStore()
+const recordsStore = useRecordsStore()
+
+// 当专注倒计时归零（自然结束），自动记录一条番茄钟完成记录
+watch(
+  () => store.timeLeft,
+  (val, oldVal) => {
+    if (store.mode === 'focus' && oldVal === 1 && val === 0) {
+      recordsStore.addRecord('focus', 25)
+    }
+    if (store.mode === 'break' && oldVal === 1 && val === 0) {
+      recordsStore.addRecord('break', 5)
+    }
+  }
+)
 </script>
 
 <style scoped>
@@ -50,7 +80,6 @@ const store = usePomodoroStore()
   padding: 48px 24px;
 }
 
-/* ---- 模式徽章 ---- */
 .mode-badge {
   font-size: 16px;
   font-weight: 600;
@@ -68,7 +97,6 @@ const store = usePomodoroStore()
   color: #27ae60;
 }
 
-/* ---- 倒计时圆盘 ---- */
 .timer-ring {
   width: 240px;
   height: 240px;
@@ -101,7 +129,6 @@ const store = usePomodoroStore()
   color: #2c3e50;
 }
 
-/* ---- 按钮组 ---- */
 .controls {
   display: flex;
   gap: 16px;
@@ -136,5 +163,19 @@ const store = usePomodoroStore()
 .btn-reset {
   background: #bdc3c7;
   color: #2c3e50;
+}
+
+.mode-switch {
+  display: flex;
+  gap: 12px;
+}
+.btn-mode {
+  background: #ecf0f1;
+  color: #2c3e50;
+  min-width: 72px;
+}
+.btn-mode.active {
+  background: #2c3e50;
+  color: #fff;
 }
 </style>

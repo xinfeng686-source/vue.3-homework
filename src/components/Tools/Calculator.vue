@@ -1,34 +1,33 @@
 <template>
   <div class="calculator">
-    <!-- 显示屏 -->
     <div class="display" :class="{ error: isError }">
       {{ display }}
     </div>
 
-    <!-- 按钮面板 -->
     <div class="keypad">
-      <button class="key key-op"  @click="handleOperator('÷')">÷</button>
-      <button class="key key-op"  @click="handleOperator('×')">×</button>
-      <button class="key key-op"  @click="handleOperator('−')">−</button>
-      <button class="key key-op"  @click="handleOperator('+')">+</button>
+      <button class="key fn"   @click="handleClear">C</button>
+      <button class="key fn"   @click="handleBackspace">⌫</button>
+      <button class="key fn"   disabled></button>
+      <button class="key op"   @click="handleOperator('÷')">÷</button>
 
-      <button class="key key-num" @click="inputDigit(7)">7</button>
-      <button class="key key-num" @click="inputDigit(8)">8</button>
-      <button class="key key-num" @click="inputDigit(9)">9</button>
-      <button class="key key-fn"  @click="handleClear">C</button>
+      <button class="key num"  @click="inputDigit(7)">7</button>
+      <button class="key num"  @click="inputDigit(8)">8</button>
+      <button class="key num"  @click="inputDigit(9)">9</button>
+      <button class="key op"   @click="handleOperator('×')">×</button>
 
-      <button class="key key-num" @click="inputDigit(4)">4</button>
-      <button class="key key-num" @click="inputDigit(5)">5</button>
-      <button class="key key-num" @click="inputDigit(6)">6</button>
-      <button class="key key-fn"  @click="handleBackspace">⌫</button>
+      <button class="key num"  @click="inputDigit(4)">4</button>
+      <button class="key num"  @click="inputDigit(5)">5</button>
+      <button class="key num"  @click="inputDigit(6)">6</button>
+      <button class="key op"   @click="handleOperator('−')">−</button>
 
-      <button class="key key-num" @click="inputDigit(1)">1</button>
-      <button class="key key-num" @click="inputDigit(2)">2</button>
-      <button class="key key-num" @click="inputDigit(3)">3</button>
-      <button class="key key-eq"  @click="handleEquals">=</button>
+      <button class="key num"  @click="inputDigit(1)">1</button>
+      <button class="key num"  @click="inputDigit(2)">2</button>
+      <button class="key num"  @click="inputDigit(3)">3</button>
+      <button class="key op"   @click="handleOperator('+')">+</button>
 
-      <button class="key key-num key-zero" @click="inputDigit(0)">0</button>
-      <button class="key key-num" @click="inputDecimal">.</button>
+      <button class="key num zero" @click="inputDigit(0)">0</button>
+      <button class="key num"      @click="inputDecimal">.</button>
+      <button class="key eq"       @click="handleEquals">=</button>
     </div>
   </div>
 </template>
@@ -186,8 +185,12 @@ function formatResult(val) {
 
 <style scoped>
 .calculator {
-  max-width: 280px;
+  max-width: 320px;
+  width: 100%;
   margin: 0 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
 }
 
 /* ---- 显示屏 ---- */
@@ -198,9 +201,8 @@ function formatResult(val) {
   font-weight: 300;
   font-variant-numeric: tabular-nums;
   text-align: right;
-  padding: 20px 16px;
-  border-radius: 12px 12px 0 0;
-  min-height: 76px;
+  padding: 24px 18px 16px;
+  min-height: 80px;
   line-height: 1;
   letter-spacing: 2px;
   overflow-x: auto;
@@ -215,20 +217,25 @@ function formatResult(val) {
 .keypad {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: #ccc;
-  border-radius: 0 0 12px 12px;
-  overflow: hidden;
+  gap: 2px;
+  background: #d5d8dc;
+  padding: 2px;
 }
 
 .key {
-  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1.3;
+  padding: 0;
   border: none;
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 500;
   cursor: pointer;
   transition: filter 0.12s;
   user-select: none;
 }
+
 .key:hover {
   filter: brightness(0.92);
 }
@@ -236,25 +243,29 @@ function formatResult(val) {
   filter: brightness(0.82);
 }
 
-.key-num {
+.num {
   background: #f5f5f5;
   color: #2c3e50;
 }
-.key-op {
+.op {
   background: #f0b429;
   color: #fff;
 }
-.key-fn {
+.fn {
   background: #d5d8dc;
   color: #2c3e50;
 }
-.key-eq {
+.eq {
   background: #e67e22;
   color: #fff;
-  grid-row: span 2;
+  grid-column: span 2;
+  aspect-ratio: auto;
+  padding: 12px 0;
 }
 
-.key-zero {
+.zero {
   grid-column: span 2;
+  aspect-ratio: auto;
+  padding: 12px 0;
 }
 </style>
