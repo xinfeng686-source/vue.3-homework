@@ -53,6 +53,19 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     timeLeft.value = mode.value === 'focus' ? FOCUS_TIME : BREAK_TIME
   }
 
+  // 供 Pomodoro.vue 调用：切换时间挡位
+  function setDuration(seconds) {
+    if (isRunning.value) return
+    timeLeft.value = seconds
+    mode.value = 'focus'
+  }
+
+  // 供 Pomodoro.vue 调用：从 localStorage 恢复倒计时
+  function restoreTimer(remainingSeconds) {
+    timeLeft.value = remainingSeconds
+    isRunning.value = false
+  }
+
   function switchMode() {
     pauseTimer()
     mode.value = mode.value === 'focus' ? 'break' : 'focus'
@@ -71,6 +84,8 @@ export const usePomodoroStore = defineStore('pomodoro', () => {
     startTimer,
     pauseTimer,
     resetTimer,
+    setDuration,
+    restoreTimer,
     switchMode
   }
 })
